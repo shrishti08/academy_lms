@@ -2,8 +2,10 @@ import 'package:academy_lms/Auth/SignIn/sign_in.dart';
 import 'package:academy_lms/Auth/SignUp/sign_up.dart';
 import 'package:academy_lms/Home/home.dart';
 import 'package:academy_lms/Locale/change_language.dart';
+import 'package:academy_lms/Others/bookmarks.dart';
 import 'package:academy_lms/Others/ongoing_courses.dart';
 import 'package:academy_lms/Others/support.dart';
+import 'package:academy_lms/Others/user_experience.dart';
 import 'package:flutter/material.dart';
 
 class PageRoutes {
@@ -30,8 +32,8 @@ class PageRoutes {
       home: (context) => HomePage(),
       // search: (context) => SearchPage(),
       // categoryPage: (context) => CategoryPage(),
-      // userExperience: (context) => UserExperiencePage(),
-      // bookmarked: (context) => Bookmarked(),
+      // userExperience: (context) => UserExperiencePage(courseId: null,),
+      bookmarked: (context) => Bookmarked(),
       // notifications: (context) => Notifications(),
       // profile: (context) => Profile(),
       support: (context) => Support(),

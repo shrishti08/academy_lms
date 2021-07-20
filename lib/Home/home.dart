@@ -316,35 +316,37 @@ class _HomePageState extends State<HomePage> {
                 //     itemCount: catData.length,
                 //   ),
                 // ),
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2),
-                    shrinkWrap: true,
-                    itemCount: loadedCategories.length,
-                    itemBuilder: (context, index) {
-                      return Column(
-                        children: [
-                          Container(
-                            height: 80,
-                            width: 150,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              image: DecorationImage(
-                                  image: NetworkImage(
-                                      loadedCategories[index].thumbnail),
-                                  fit: BoxFit.fill),
-                            ),
-                          ),
-                          Text(
+                GridView.builder(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2),
+                  shrinkWrap: true,
+                  itemCount: loadedCategories.length,
+                  itemBuilder: (context, index) {
+                    return Container(
+                      height: 10,
+                      width: double.infinity,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Text(
                             loadedCategories[index].title,
-                            style: TextStyle(color: Colors.black, fontSize: 14),
+                            style: TextStyle(color: Colors.black, fontSize: 10),
                           ),
-                        ],
-                      );
-                    },
-                  ),
+                        ),
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        image: DecorationImage(
+                            colorFilter: new ColorFilter.mode(
+                                Colors.black.withOpacity(0.3),
+                                BlendMode.dstATop),
+                            image:
+                                NetworkImage(loadedCategories[index].thumbnail),
+                            fit: BoxFit.fill),
+                      ),
+                    );
+                  },
                 )
 
                 // Container(

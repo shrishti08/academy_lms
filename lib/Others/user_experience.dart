@@ -47,37 +47,55 @@ class _UserExperiencePageState extends State<UserExperiencePage> {
   @override
   void initState() {
     super.initState();
-    print(widget.courseId);
 
     fetchCoursesByCategory(widget.courseId);
-    setState(() {
-      _loading = true;
-    });
   }
 
   List<Course> _items = [];
+  List<UserExperienceCardModel> userExperienceList = [];
 
   String BASE_URL = 'https://academy-lms.gstempire.com/';
 
   Future<void> fetchCoursesByCategory(int categoryId) async {
+    setState(() {
+      _loading = true;
+    });
     var url = Uri.parse(
         BASE_URL + '/api/category_wise_course?category_id=$categoryId');
     try {
       final response = await http.get(url);
       final extractedData = json.decode(response.body) as List;
-      setState(() {
-        _loading = false;
-      });
 
       print(extractedData);
-
-      _items = buildCourseList(extractedData);
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        _items = buildCourseList(extractedData);
+        setState(() {
+          _loading = false;
+        });
+      }
       print(_items);
     } catch (error) {
       SnackBar(
         content: Text(error.toString()),
       );
     }
+    // for (final item in _items) {
+    //   userExperienceList[0].image = _items[1].thumbnail;
+    //   userExperienceList[1].title = _items[1].title;
+    //   userExperienceList[1].price = _items[1].price as double;
+    //   userExperienceList[1].teacher = _items[1].instructor;
+    //   userExperienceList[1].ratings = _items[1].rating as double;
+    //   userExperienceList[1].reviews = _items[1].courseOverviewProvider as int;
+    // }
+    // for (int i = 0; i <= _items.length; i++) {
+    //   userExperienceList[i].title = _items[i].title;
+    //   userExperienceList[i].image = _items[i].thumbnail;
+    //   userExperienceList[i].price = _items[i].price as double;
+    //   userExperienceList[i].teacher = _items[i].instructor;
+    //   userExperienceList[i].ratings = _items[i].rating as double;
+    //   userExperienceList[i].reviews = 0;
+    // }
   }
 
   @override
@@ -127,6 +145,7 @@ class _UserExperiencePageState extends State<UserExperiencePage> {
                     color: theme.primaryColor,
                   ),
                   ListView.builder(
+                    // itemCount: userExperienceList.length,
                     itemCount: _items.length,
                     physics: BouncingScrollPhysics(),
                     itemBuilder: (context, index) => Stack(
@@ -174,7 +193,7 @@ class _UserExperiencePageState extends State<UserExperiencePage> {
                                     ),
                                     SizedBox(width: 8),
                                     Text(
-                                      '(${_items[index].numberOfEnrollment})',
+                                      '(${_items[index].courseOverviewProvider})',
                                       style: theme.textTheme.caption!
                                           .copyWith(color: theme.hintColor),
                                     )
@@ -199,6 +218,15 @@ class _UserExperiencePageState extends State<UserExperiencePage> {
                       ],
                     ),
                   ),
+                  // ListView.builder(
+                  //     itemCount: _items.length,
+                  //     itemBuilder: (context, index) {
+                  //       return Column(
+                  //         children: [
+                  //           Text(_items[index].title),
+                  //         ],
+                  //       );
+                  //     })
                 ],
               ),
               beginOffset: Offset(0, 0.3),

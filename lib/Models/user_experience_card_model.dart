@@ -1,10 +1,10 @@
 class UserExperienceCardModel {
-  final String? title;
-  final String image;
-  final String teacher;
-  final double price;
-  final double ratings;
-  final int reviews;
+  late final String? title;
+  late final String image;
+  late final String teacher;
+  late final double price;
+  late final double ratings;
+  late final int reviews;
 
   UserExperienceCardModel(
     this.title,

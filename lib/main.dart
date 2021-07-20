@@ -59,8 +59,8 @@ class MyApp extends StatelessWidget {
             ],
             locale: locale,
             theme: appTheme,
-            // home: SelectLanguage(),
-            home: HomePage(),
+            home: SelectLanguage(),
+            // home: HomePage(),
             routes: PageRoutes().routes(),
           );
         },
