@@ -77,7 +77,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-
+    getBannerImage();
     fetchCategories();
   }
 
@@ -88,6 +88,7 @@ class _HomePageState extends State<HomePage> {
   var catData = [];
   String BASE_URL = 'https://academy-lms.gstempire.com/';
   final List<Category> loadedCategories = [];
+  String bannerImage = '';
 
   Future<void> fetchCategories() async {
     setState(() {
@@ -127,6 +128,24 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  Future<void> getBannerImage() async {
+    setState(() {
+      _isLoading = true;
+    });
+    var url = Uri.parse(BASE_URL + 'api/app_logo');
+    try {
+      final response = await http.get(url);
+      final extractedData = json.decode(response.body);
+      setState(() {
+        _isLoading = false;
+      });
+      print(response.statusCode);
+      bannerImage = extractedData['banner_image'];
+    } catch (e) {
+      throw (e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     // final courseData = Provider.of<Courses>(context, listen: false).items;
@@ -142,7 +161,7 @@ class _HomePageState extends State<HomePage> {
         centerTitle: true,
         title: FadedScaleAnimation(
           Text(
-            'Academy LMS',
+            'Raone Education',
           ),
         ),
         actions: [
@@ -168,7 +187,7 @@ class _HomePageState extends State<HomePage> {
                 Stack(
                   clipBehavior: Clip.none,
                   children: [
-                    Image.asset(Assets.headerImage),
+                    Image.network(bannerImage),
                     PositionedDirectional(
                       top: 144,
                       start: 16,
@@ -348,6 +367,53 @@ class _HomePageState extends State<HomePage> {
                     );
                   },
                 )
+                // GridView.builder(
+                //   physics: NeverScrollableScrollPhysics(),
+                //   // padding: EdgeInsets.symmetric(horizontal: 16),
+                //   padding: EdgeInsets.zero,
+                //   itemCount: loadedCategories.length,
+                //   shrinkWrap: true,
+                //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                //     crossAxisCount: 2,
+                //     crossAxisSpacing: 12,
+                //     childAspectRatio: 2,
+                //     mainAxisSpacing: 12,
+                //   ),
+                //   itemBuilder: (context, index) => InkWell(
+                //     onTap: () {
+                //       Navigator.pushNamed(context, PageRoutes.categoryPage,
+                //           arguments: loadedCategories[index].title);
+                //     },
+                //     child: FadedScaleAnimation(
+                //       Container(
+                //           padding:
+                //               EdgeInsetsDirectional.only(start: 12, top: 44),
+                //           decoration: BoxDecoration(
+                //               image: DecorationImage(
+                //                   image: NetworkImage(
+                //                       loadedCategories[index].thumbnail))),
+                //           child: RichText(
+                //             text: TextSpan(
+                //               children: [
+                //                 TextSpan(
+                //                     text: loadedCategories[index].title,
+                //                     style: theme.textTheme.headline6),
+                //                 TextSpan(
+                //                     text: '\n' +
+                //                         loadedCategories[index]
+                //                             .numberOfCourses
+                //                             .toString() +
+                //                         ' ' +
+                //                         AppLocalizations.of(context)!.courses!,
+                //                     style: theme.textTheme.caption!.copyWith(
+                //                         color: theme.scaffoldBackgroundColor
+                //                             .withOpacity(0.7)))
+                //               ],
+                //             ),
+                //           )),
+                //     ),
+                //   ),
+                // ),
 
                 // Container(
                 //   height: 100,

@@ -3,7 +3,12 @@ import 'package:academy_lms/Auth/SignUp/sign_up.dart';
 import 'package:academy_lms/Home/home.dart';
 import 'package:academy_lms/Locale/change_language.dart';
 import 'package:academy_lms/Others/bookmarks.dart';
+import 'package:academy_lms/Others/course_info.dart';
+import 'package:academy_lms/Others/lecture_info.dart';
+import 'package:academy_lms/Others/notifications.dart';
 import 'package:academy_lms/Others/ongoing_courses.dart';
+import 'package:academy_lms/Others/profile.dart';
+import 'package:academy_lms/Others/search.dart';
 import 'package:academy_lms/Others/support.dart';
 import 'package:academy_lms/Others/user_experience.dart';
 import 'package:flutter/material.dart';
@@ -30,17 +35,17 @@ class PageRoutes {
       signIn: (context) => SignInPage(),
       signUp: (context) => SignUpUI(),
       home: (context) => HomePage(),
-      // search: (context) => SearchPage(),
+      search: (context) => SearchPage(),
       // categoryPage: (context) => CategoryPage(),
       // userExperience: (context) => UserExperiencePage(courseId: null,),
       bookmarked: (context) => Bookmarked(),
-      // notifications: (context) => Notifications(),
-      // profile: (context) => Profile(),
+      notifications: (context) => Notifications(),
+      profile: (context) => Profile(),
       support: (context) => Support(),
       ongoingCourses: (context) => OngoingCourses(),
-      // courseInfo: (context) => CourseInfo(),
+      courseInfo: (context) => CourseInfo(),
       // lecturerProfile: (context) => LecturerProfile(),
-      // lecturerInfo: (context) => LectureInfo(),
+      lecturerInfo: (context) => LectureInfo(),
       changeLanguage: (context) => SelectLanguage(),
     };
   }

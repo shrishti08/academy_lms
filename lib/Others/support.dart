@@ -12,6 +12,7 @@ class Support extends StatelessWidget {
     var theme = Theme.of(context);
     var locale = AppLocalizations.of(context)!;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: textFieldColor,
       drawer: AppDrawer(),
       appBar: AppBar(
@@ -105,7 +106,7 @@ class Support extends StatelessWidget {
                         width: 20,
                       ),
                       Text(
-                        'help@raonelms.com',
+                        'help@ra1education.com',
                         style: theme.textTheme.subtitle1!.copyWith(
                           color: textColor,
                           fontWeight: FontWeight.w500,
