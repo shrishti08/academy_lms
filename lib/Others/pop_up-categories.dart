@@ -21,7 +21,7 @@ class _SelectCategoryState extends State<SelectCategory> {
   late LanguageCubit _languageCubit;
   int? _selectedCategory;
   bool _isLoading = false;
-  late int categoryId;
+  int categoryId = 1;
 
   @override
   void initState() {
