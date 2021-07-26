@@ -20,7 +20,8 @@ import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  int categoryId;
+  HomePage({required this.categoryId});
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -78,7 +79,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     getBannerImage();
-    fetchCategories();
+    getCoursesByCategory(widget.categoryId);
   }
 
   String data = '';
@@ -90,41 +91,65 @@ class _HomePageState extends State<HomePage> {
   final List<Category> loadedCategories = [];
   String bannerImage = '';
 
-  Future<void> fetchCategories() async {
+  // Future<void> fetchCategories() async {
+  //   setState(() {
+  //     _isLoading = true;
+  //   });
+  //   var url = Uri.parse(BASE_URL + '/api/categories');
+  //   try {
+  //     final response = await http.get(url);
+
+  //     final extractedData = json.decode(response.body) as List;
+  //     setState(() {
+  //       _isLoading = false;
+  //     });
+  //     print(response.statusCode);
+  //     if (extractedData == null) {
+  //       return;
+  //     } else
+  //       print(extractedData);
+
+  // extractedData.forEach((catData) {
+  //   loadedCategories.add(Category(
+  //     id: int.parse(catData['id']),
+  //     title: catData['name'],
+  //     thumbnail: catData['thumbnail'],
+  //     numberOfCourses: catData['number_of_courses'],
+  //   ));
+
+  //   print(catData['name']);
+  //   data = catData['name'];
+  //   for (final name in loadedCategories) {
+  //     print(name);
+  //   }
+  //   print(namesList);
+  // });
+  //   } catch (error) {
+  //     throw (error);
+  //   }
+  // }
+  Future<void> getCoursesByCategory(int id) async {
     setState(() {
       _isLoading = true;
     });
-    var url = Uri.parse(BASE_URL + '/api/categories');
+    var url = Uri.parse(BASE_URL + 'api/category_wise_course?category_id=$id');
     try {
       final response = await http.get(url);
-
-      final extractedData = json.decode(response.body) as List;
+      final extractedData = json.decode(response.body);
       setState(() {
         _isLoading = false;
       });
       print(response.statusCode);
-      if (extractedData == null) {
-        return;
-      } else
-        print(extractedData);
-
       extractedData.forEach((catData) {
         loadedCategories.add(Category(
-          id: int.parse(catData['id']),
-          title: catData['name'],
-          thumbnail: catData['thumbnail'],
-          numberOfCourses: catData['number_of_courses'],
-        ));
-
-        print(catData['name']);
-        data = catData['name'];
-        for (final name in loadedCategories) {
-          print(name);
-        }
-        print(namesList);
+            id: int.parse(catData['id']),
+            title: catData['title'],
+            thumbnail: catData['thumbnail'],
+            // numberOfCourses: catData['number_of_courses'],
+            numberOfCourses: 4));
       });
     } catch (error) {
-      throw (error);
+      print(error);
     }
   }
 

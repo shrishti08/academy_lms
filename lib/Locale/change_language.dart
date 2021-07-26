@@ -1,4 +1,5 @@
 import 'package:academy_lms/Components/custombutton.dart';
+import 'package:academy_lms/Others/pop_up-categories.dart';
 import 'package:academy_lms/Routes/routes.dart';
 import 'package:academy_lms/Theme/colors.dart';
 import 'package:animation_wrappers/animation_wrappers.dart';
@@ -124,7 +125,11 @@ class _SelectLanguageState extends State<SelectLanguage> {
                   }
 
                   Navigator.pop(context);
-                  Navigator.pushNamed(context, PageRoutes.signIn);
+                  // Navigator.pushNamed(context, PageRoutes.signIn);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => SelectCategory()));
                 },
                 child: CustomButton(
                   text: locale.save,

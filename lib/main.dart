@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:academy_lms/Auth/SignIn/phone_auth.dart';
 import 'package:academy_lms/Home/home.dart';
 import 'package:academy_lms/Locale/change_language.dart';
 import 'package:academy_lms/Locale/locales.dart';
@@ -59,8 +60,9 @@ class MyApp extends StatelessWidget {
             ],
             locale: locale,
             theme: appTheme,
-            // home: SelectLanguage(),
-            home: HomePage(),
+            home: SelectLanguage(),
+            // home: HomePage(),
+            // home: PhoneAuthPage(),
             routes: PageRoutes().routes(),
           );
         },

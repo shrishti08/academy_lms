@@ -34,7 +34,9 @@ class PageRoutes {
     return {
       signIn: (context) => SignInPage(),
       signUp: (context) => SignUpUI(),
-      home: (context) => HomePage(),
+      home: (context) => HomePage(
+            categoryId: 7,
+          ),
       search: (context) => SearchPage(),
       // categoryPage: (context) => CategoryPage(),
       // userExperience: (context) => UserExperiencePage(courseId: null,),
