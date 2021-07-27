@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:academy_lms/Auth/SignIn/phone_auth.dart';
 import 'package:academy_lms/Components/custombutton.dart';
 import 'package:academy_lms/Home/home.dart';
 import 'package:academy_lms/Locale/locales.dart';
@@ -133,8 +134,9 @@ class _SelectCategoryState extends State<SelectCategory> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    HomePage(categoryId: categoryId)));
+                                builder: (context) => HomePage(
+                                      categoryId: categoryId,
+                                    )));
                       },
                       child: CustomButton(
                         text: locale.save,

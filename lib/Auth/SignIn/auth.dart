@@ -1,4 +1,5 @@
 import 'package:academy_lms/Home/home.dart';
+import 'package:academy_lms/Locale/change_language.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -114,10 +115,7 @@ class AuthClass {
       storeTokenAndData(userCredential);
       Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(
-              builder: (builder) => HomePage(
-                    categoryId: 7,
-                  )),
+          MaterialPageRoute(builder: (builder) => SelectLanguage()),
           (route) => false);
 
       showSnackBar(context, "logged In");
