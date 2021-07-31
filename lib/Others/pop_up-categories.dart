@@ -1,10 +1,8 @@
 import 'dart:convert';
 
-import 'package:academy_lms/Auth/SignIn/phone_auth.dart';
 import 'package:academy_lms/Components/custombutton.dart';
 import 'package:academy_lms/Home/home.dart';
 import 'package:academy_lms/Locale/locales.dart';
-import 'package:academy_lms/Routes/routes.dart';
 import 'package:academy_lms/Theme/colors.dart';
 import 'package:academy_lms/providers/categories.dart';
 import 'package:animation_wrappers/animation_wrappers.dart';

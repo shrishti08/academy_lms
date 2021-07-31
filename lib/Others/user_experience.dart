@@ -7,6 +7,7 @@ import 'package:academy_lms/Models/user_experience_card_model.dart';
 import 'package:academy_lms/Others/filters.dart';
 import 'package:academy_lms/Routes/routes.dart';
 import 'package:academy_lms/Theme/colors.dart';
+import 'package:academy_lms/providers/categories.dart';
 import 'package:animation_wrappers/animation_wrappers.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -21,26 +22,26 @@ class UserExperiencePage extends StatefulWidget {
 
 class _UserExperiencePageState extends State<UserExperiencePage> {
   final List<Course> loadedCourses = [];
-  List<Course> buildCourseList(List extractedData) {
-    extractedData.forEach((courseData) {
-      loadedCourses.add(Course(
-        id: int.parse(courseData['id']),
-        title: courseData['title'],
-        thumbnail: courseData['thumbnail'],
-        price: courseData['price'],
-        instructor: courseData['instructor_name'],
-        rating: courseData['rating'],
-        totalNumberRating: courseData['number_of_ratings'],
-        numberOfEnrollment: courseData['total_enrollment'],
-        shareableLink: courseData['shareable_link'],
-        courseOverviewProvider: courseData['course_overview_provider'],
-        courseOverviewUrl: courseData['video_url'],
-        vimeoVideoId: courseData['vimeo_video_id'],
-      ));
-      // print(catData['name']);
-    });
-    return loadedCourses;
-  }
+  // List<Course> buildCourseList(List extractedData) {
+  //   extractedData.forEach((courseData) {
+  //     loadedCourses.add(Course(
+  //       id: int.parse(courseData['id']),
+  //       title: courseData['title'],
+  //       thumbnail: courseData['thumbnail'],
+  //       price: courseData['price'],
+  //       instructor: courseData['instructor_name'],
+  //       rating: courseData['rating'],
+  //       totalNumberRating: courseData['number_of_ratings'],
+  //       numberOfEnrollment: courseData['total_enrollment'],
+  //       shareableLink: courseData['shareable_link'],
+  //       courseOverviewProvider: courseData['course_overview_provider'],
+  //       courseOverviewUrl: courseData['video_url'],
+  //       vimeoVideoId: courseData['vimeo_video_id'],
+  //     ));
+  //     // print(catData['name']);
+  //   });
+  //   return loadedCourses;
+  // }
 
   bool _loading = false;
 
@@ -48,54 +49,73 @@ class _UserExperiencePageState extends State<UserExperiencePage> {
   void initState() {
     super.initState();
 
-    fetchCoursesByCategory(widget.courseId);
+    getCoursesByCategory(widget.courseId);
   }
 
-  List<Course> _items = [];
-  List<UserExperienceCardModel> userExperienceList = [];
-
   String BASE_URL = 'https://academy-lms.gstempire.com/';
+  void setStateIfMounted(f) {
+    if (mounted) setState(f);
+  }
 
-  Future<void> fetchCoursesByCategory(int categoryId) async {
+  // Future<void> fetchCoursesByCategory(int categoryId) async {
+  //   setState(() {
+  //     _loading = true;
+  //   });
+  //   var url = Uri.parse(
+  //       BASE_URL + '/api/category_wise_course?category_id=$categoryId');
+  //   try {
+  //     final response = await http.get(url);
+  //     final extractedData = json.decode(response.body) as List;
+  //     setState(() {
+  //       _loading = false;
+  //     });
+
+  //     print(extractedData);
+  //     print(response.statusCode);
+  //     if (response.statusCode == 200) {
+  //       _items = buildCourseList(extractedData);
+  //     }
+  //     print(_items);
+  //   } catch (error) {
+  //     SnackBar(
+  //       content: Text(error.toString()),
+  //     );
+  //   }
+
+  Future<void> getCoursesByCategory(int id) async {
     setState(() {
       _loading = true;
     });
-    var url = Uri.parse(
-        BASE_URL + '/api/category_wise_course?category_id=$categoryId');
+    var url = Uri.parse(BASE_URL + 'api/category_wise_course?category_id=$id');
     try {
       final response = await http.get(url);
-      final extractedData = json.decode(response.body) as List;
+      final extractedData = json.decode(response.body);
 
-      print(extractedData);
-      print(response.statusCode);
-      if (response.statusCode == 200) {
-        _items = buildCourseList(extractedData);
-        setState(() {
-          _loading = false;
-        });
-      }
-      print(_items);
+      print(response.body);
+      extractedData.forEach((catData) {
+        loadedCourses.add(Course(
+          id: int.parse(catData['id']),
+          title: catData['title'],
+          thumbnail: catData['thumbnail'],
+          instructor: catData['instructor_name'],
+          numberOfEnrollment: int.parse(catData['total_enrollment']),
+          rating: int.parse(catData['rating']),
+          vimeoVideoId: catData['video_url'],
+          shareableLink: catData['shareable_link'],
+          courseOverviewProvider: catData['course_overview_provider'],
+          price: catData['price'],
+          totalNumberRating: int.parse(catData['number_of_ratings']),
+          courseOverviewUrl: catData['short_description'],
+        ));
+      });
+      setState(() {
+        _loading = false;
+      });
+      // buildCourseList(extractedData);
+
     } catch (error) {
-      SnackBar(
-        content: Text(error.toString()),
-      );
+      print(error);
     }
-    // for (final item in _items) {
-    //   userExperienceList[0].image = _items[1].thumbnail;
-    //   userExperienceList[1].title = _items[1].title;
-    //   userExperienceList[1].price = _items[1].price as double;
-    //   userExperienceList[1].teacher = _items[1].instructor;
-    //   userExperienceList[1].ratings = _items[1].rating as double;
-    //   userExperienceList[1].reviews = _items[1].courseOverviewProvider as int;
-    // }
-    // for (int i = 0; i <= _items.length; i++) {
-    //   userExperienceList[i].title = _items[i].title;
-    //   userExperienceList[i].image = _items[i].thumbnail;
-    //   userExperienceList[i].price = _items[i].price as double;
-    //   userExperienceList[i].teacher = _items[i].instructor;
-    //   userExperienceList[i].ratings = _items[i].rating as double;
-    //   userExperienceList[i].reviews = 0;
-    // }
   }
 
   @override
@@ -146,7 +166,7 @@ class _UserExperiencePageState extends State<UserExperiencePage> {
                   ),
                   ListView.builder(
                     // itemCount: userExperienceList.length,
-                    itemCount: _items.length,
+                    itemCount: loadedCourses.length,
                     physics: BouncingScrollPhysics(),
                     itemBuilder: (context, index) => Stack(
                       children: [
@@ -165,14 +185,15 @@ class _UserExperiencePageState extends State<UserExperiencePage> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
-                                Text(_items[index].title),
-                                Text(_items[index].instructor,
+                                Text(loadedCourses[index].title),
+                                Text(loadedCourses[index].instructor,
                                     style: theme.textTheme.subtitle2),
                                 SizedBox(height: 8),
                                 Row(
                                   children: [
                                     Text(
-                                      '\$${_items[index].price}',
+                                      '\$${loadedCourses[index].price}'
+                                          .toString(),
                                       textAlign: TextAlign.end,
                                       style: theme.textTheme.subtitle1!
                                           .copyWith(color: theme.hintColor),
@@ -186,14 +207,14 @@ class _UserExperiencePageState extends State<UserExperiencePage> {
                                         borderRadius: BorderRadius.circular(4),
                                       ),
                                       child: Text(
-                                        _items[index].rating.toString(),
+                                        loadedCourses[index].rating.toString(),
                                         style: theme.textTheme.caption!
                                             .copyWith(color: Colors.white),
                                       ),
                                     ),
                                     SizedBox(width: 8),
                                     Text(
-                                      '(${_items[index].courseOverviewProvider})',
+                                      '(${loadedCourses[index].courseOverviewProvider})',
                                       style: theme.textTheme.caption!
                                           .copyWith(color: theme.hintColor),
                                     )
@@ -209,7 +230,7 @@ class _UserExperiencePageState extends State<UserExperiencePage> {
                           bottom: 40,
                           child: FadedScaleAnimation(
                             Image.asset(
-                              _items[index].thumbnail,
+                              loadedCourses[index].thumbnail,
                               width: 120,
                               fit: BoxFit.fill,
                             ),

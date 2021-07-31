@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:academy_lms/Asset/assets.dart';
+import 'package:academy_lms/Auth/SignIn/auth.dart';
 import 'package:academy_lms/Components/app_drawer.dart';
 import 'package:academy_lms/Components/category_list_items.dart';
 
@@ -75,11 +76,14 @@ class _HomePageState extends State<HomePage> {
 
   //   return null;
   // }
+  late Future<String?> auth_token;
   @override
   void initState() {
     super.initState();
+    auth_token = AuthClass().getToken();
     getBannerImage();
     getCoursesByCategory(widget.categoryId);
+    getOngoingCourse();
   }
 
   String data = '';
@@ -166,6 +170,19 @@ class _HomePageState extends State<HomePage> {
       });
       print(response.statusCode);
       bannerImage = extractedData['banner_image'];
+    } catch (e) {
+      throw (e);
+    }
+  }
+
+  Future<void> getOngoingCourse() async {
+    var url = Uri.parse(BASE_URL + 'api/my_courses?auth_token=$auth_token');
+    try {
+      final response = await http.get(url);
+      final extractedData = json.decode(response.body);
+      print('status code of ongoing course: ${response.statusCode}');
+      print('ongoing course : $extractedData');
+      print(response.body);
     } catch (e) {
       throw (e);
     }

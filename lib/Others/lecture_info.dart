@@ -1,4 +1,5 @@
 import 'package:academy_lms/Asset/assets.dart';
+import 'package:academy_lms/Auth/SignIn/auth.dart';
 import 'package:academy_lms/Locale/locales.dart';
 import 'package:academy_lms/Theme/colors.dart';
 import 'package:animation_wrappers/animation_wrappers.dart';
@@ -12,6 +13,19 @@ class LectureInfo extends StatefulWidget {
 }
 
 class _LectureInfoState extends State<LectureInfo> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  String BASE_URL = 'https://academy-lms.gstempire.com/';
+  Future<String?> auth_token = AuthClass().getToken();
+  Future<void> getLectureDetails() async {
+    var url = Uri.parse(BASE_URL +
+        'api/course_details_by_id?auth_token=$auth_token&course_id=2');
+  }
+
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);

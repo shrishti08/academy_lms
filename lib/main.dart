@@ -6,6 +6,7 @@ import 'package:academy_lms/Auth/SignUp/sign_up.dart';
 import 'package:academy_lms/Home/home.dart';
 import 'package:academy_lms/Locale/change_language.dart';
 import 'package:academy_lms/Locale/locales.dart';
+import 'package:academy_lms/Others/pop_up-categories.dart';
 import 'package:academy_lms/Others/user_experience.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -62,10 +63,10 @@ class MyApp extends StatelessWidget {
             ],
             locale: locale,
             theme: appTheme,
-            // home: SelectLanguage(),
-            // home: HomePage(),
-            // home: PhoneAuthPage(),
-            home: SignInPage(),
+
+            // home: SignInPage(),
+            home: SelectCategory(),
+
             routes: PageRoutes().routes(),
           );
         },

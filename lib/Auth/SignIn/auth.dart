@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthClass {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -112,6 +113,7 @@ class AuthClass {
 
       UserCredential userCredential =
           await _auth.signInWithCredential(credential);
+
       storeTokenAndData(userCredential);
       Navigator.pushAndRemoveUntil(
           context,
