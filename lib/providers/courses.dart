@@ -143,7 +143,7 @@ class Courses with ChangeNotifier {
     final List<Course> loadedCourses = [];
     extractedData.forEach((courseData) {
       loadedCourses.add(Course(
-        id: int.parse(courseData['id']),
+        id: (courseData['id']),
         title: courseData['title'],
         thumbnail: courseData['thumbnail'],
         price: courseData['price'],

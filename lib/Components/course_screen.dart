@@ -103,13 +103,14 @@ class _CoursesScreenState extends State<CoursesScreen> {
                       itemBuilder: (ctx, index) {
                         return Center(
                           child: CourseListItem(
-                            id: courseData[index].id,
+                            id: int.parse(courseData[index].id),
                             title: courseData[index].title,
                             thumbnail: courseData[index].thumbnail,
-                            rating: courseData[index].rating,
+                            rating: int.parse(courseData[index].rating),
                             price: courseData[index].price,
                             instructor: courseData[index].instructor,
-                            noOfRating: courseData[index].totalNumberRating,
+                            noOfRating:
+                                int.parse(courseData[index].totalNumberRating),
                           ),
                         );
                       },

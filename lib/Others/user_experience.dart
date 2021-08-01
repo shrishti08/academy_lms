@@ -81,6 +81,10 @@ class _UserExperiencePageState extends State<UserExperiencePage> {
   //       content: Text(error.toString()),
   //     );
   //   }
+  List names = [];
+  List images = [];
+  List<UserExperienceCardModel> userExperienceCourses = [];
+  final List<Category> loadedCategories = [];
 
   Future<void> getCoursesByCategory(int id) async {
     setState(() {
@@ -91,26 +95,44 @@ class _UserExperiencePageState extends State<UserExperiencePage> {
       final response = await http.get(url);
       final extractedData = json.decode(response.body);
 
-      print(response.body);
-      extractedData.forEach((catData) {
-        loadedCourses.add(Course(
-          id: int.parse(catData['id']),
-          title: catData['title'],
-          thumbnail: catData['thumbnail'],
-          instructor: catData['instructor_name'],
-          numberOfEnrollment: int.parse(catData['total_enrollment']),
-          rating: int.parse(catData['rating']),
-          vimeoVideoId: catData['video_url'],
-          shareableLink: catData['shareable_link'],
-          courseOverviewProvider: catData['course_overview_provider'],
-          price: catData['price'],
-          totalNumberRating: int.parse(catData['number_of_ratings']),
-          courseOverviewUrl: catData['short_description'],
-        ));
-      });
+      // print(response.body);
       setState(() {
         _loading = false;
       });
+      for (final title in extractedData) {
+        names.add(title['title']);
+      }
+      for (final title in extractedData) {
+        images.add(title['thumbnail']);
+      }
+      // print(extractedData);
+      // extractedData.forEach((catData) {
+      //   loadedCourses.add(Course(
+      //     id: catData["id"],
+      //     title: catData["title"],
+      //     thumbnail: catData["thumbnail"],
+      //     instructor: catData["instructor_name"],
+      //     numberOfEnrollment: catData["total_enrollment"],
+      //     rating: catData["rating"],
+      //     vimeoVideoId: catData["video_url"],
+      //     shareableLink: catData["shareable_link"],
+      //     courseOverviewProvider: catData["course_overview_provider"],
+      //     price: catData["price"],
+      //     totalNumberRating: catData["number_of_ratings"],
+      //     courseOverviewUrl: catData["short_description"],
+      //   ));
+
+      //   print(catData);
+      // });
+      //  extractedData.forEach((catData) {
+      //   loadedCategories.add(Category(
+      //       id: int.parse(catData['id']),
+      //       title: catData['title'],
+      //       thumbnail: catData['thumbnail'],
+      //       // numberOfCourses: catData['number_of_courses'],
+      //       numberOfCourses: 4));
+      // });
+
       // buildCourseList(extractedData);
 
     } catch (error) {
@@ -152,108 +174,116 @@ class _UserExperiencePageState extends State<UserExperiencePage> {
           IconButton(icon: Icon(Icons.search), onPressed: () {}),
         ],
       ),
-      body: _loading
-          ? Center(
-              child: CircularProgressIndicator(),
-            )
-          : FadedSlideAnimation(
-              Stack(
-                children: [
-                  Container(
-                    height: 60,
-                    width: double.infinity,
-                    color: theme.primaryColor,
-                  ),
-                  ListView.builder(
-                    // itemCount: userExperienceList.length,
-                    itemCount: loadedCourses.length,
-                    physics: BouncingScrollPhysics(),
-                    itemBuilder: (context, index) => Stack(
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            Navigator.pushNamed(context, PageRoutes.courseInfo);
-                          },
-                          child: Container(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
-                                120, 20, 20, 20),
-                            margin: EdgeInsetsDirectional.only(
-                                start: 40, end: 20, bottom: 20),
-                            decoration: BoxDecoration(
-                                color: theme.scaffoldBackgroundColor,
-                                borderRadius: BorderRadius.circular(10)),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                Text(loadedCourses[index].title),
-                                Text(loadedCourses[index].instructor,
-                                    style: theme.textTheme.subtitle2),
-                                SizedBox(height: 8),
-                                Row(
-                                  children: [
-                                    Text(
-                                      '\$${loadedCourses[index].price}'
-                                          .toString(),
-                                      textAlign: TextAlign.end,
-                                      style: theme.textTheme.subtitle1!
-                                          .copyWith(color: theme.hintColor),
-                                    ),
-                                    Spacer(),
-                                    Container(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 8, vertical: 2),
-                                      decoration: BoxDecoration(
-                                        color: Colors.lightGreen,
-                                        borderRadius: BorderRadius.circular(4),
-                                      ),
-                                      child: Text(
-                                        loadedCourses[index].rating.toString(),
-                                        style: theme.textTheme.caption!
-                                            .copyWith(color: Colors.white),
-                                      ),
-                                    ),
-                                    SizedBox(width: 8),
-                                    Text(
-                                      '(${loadedCourses[index].courseOverviewProvider})',
-                                      style: theme.textTheme.caption!
-                                          .copyWith(color: theme.hintColor),
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        PositionedDirectional(
-                          start: 16,
-                          top: 20,
-                          bottom: 40,
-                          child: FadedScaleAnimation(
-                            Image.asset(
-                              loadedCourses[index].thumbnail,
-                              width: 120,
-                              fit: BoxFit.fill,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  // ListView.builder(
-                  //     itemCount: _items.length,
-                  //     itemBuilder: (context, index) {
-                  //       return Column(
-                  //         children: [
-                  //           Text(_items[index].title),
-                  //         ],
-                  //       );
-                  //     })
-                ],
-              ),
-              beginOffset: Offset(0, 0.3),
-              endOffset: Offset(0, 0),
-              slideCurve: Curves.linearToEaseOut,
+      body: FadedSlideAnimation(
+        Stack(
+          children: [
+            Container(
+              height: 60,
+              width: double.infinity,
+              color: theme.primaryColor,
             ),
+            // ListView.builder(
+            //   itemCount: loadedCategories.length,
+            //   physics: BouncingScrollPhysics(),
+            //   itemBuilder: (context, index) => Stack(
+            //     children: [
+            //       InkWell(
+            //         onTap: () {
+            //           Navigator.pushNamed(context, PageRoutes.courseInfo);
+            //         },
+            //         child: Container(
+            //           padding:
+            //               const EdgeInsetsDirectional.fromSTEB(120, 20, 20, 20),
+            //           margin: EdgeInsetsDirectional.only(
+            //               start: 40, end: 20, bottom: 20),
+            //           decoration: BoxDecoration(
+            //               color: theme.scaffoldBackgroundColor,
+            //               borderRadius: BorderRadius.circular(10)),
+            //           child: Column(
+            //             crossAxisAlignment: CrossAxisAlignment.stretch,
+            //             children: [
+            //               Text(loadedCategories[index].title!),
+            //               Text(loadedCategories[index].teacher,
+            //                   style: theme.textTheme.subtitle2),
+            //               SizedBox(height: 8),
+            //               Row(
+            //                 children: [
+            //                   Text(
+            //                     '\$${userExperienceList[index].price}',
+            //                     textAlign: TextAlign.end,
+            //                     style: theme.textTheme.subtitle1!
+            //                         .copyWith(color: theme.hintColor),
+            //                   ),
+            //                   Spacer(),
+            //                   Container(
+            //                     padding: EdgeInsets.symmetric(
+            //                         horizontal: 8, vertical: 2),
+            //                     decoration: BoxDecoration(
+            //                       color: Colors.lightGreen,
+            //                       borderRadius: BorderRadius.circular(4),
+            //                     ),
+            //                     child: Text(
+            //                       userExperienceList[index].ratings.toString(),
+            //                       style: theme.textTheme.caption!
+            //                           .copyWith(color: Colors.white),
+            //                     ),
+            //                   ),
+            //                   SizedBox(width: 8),
+            //                   Text(
+            //                     '(${userExperienceList[index].reviews})',
+            //                     style: theme.textTheme.caption!
+            //                         .copyWith(color: theme.hintColor),
+            //                   )
+            //                 ],
+            //               ),
+            //             ],
+            //           ),
+            //         ),
+            //       ),
+            //       PositionedDirectional(
+            //         start: 16,
+            //         top: 20,
+            //         bottom: 40,
+            //         child: FadedScaleAnimation(
+            //           Image.asset(
+            //             userExperienceList[index].image,
+            //             width: 120,
+            //             fit: BoxFit.fill,
+            //           ),
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            // ),
+            SizedBox(
+              height: 800,
+            ),
+            Spacer(),
+            Container(
+              child: ListView.builder(
+                  itemCount: names.length,
+                  itemBuilder: (context, index) => Wrap(
+                        children: [
+                          Container(
+                            height: 40,
+                            width: 100,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: NetworkImage(images[index]),
+                              ),
+                            ),
+                          ),
+                          Text(names[index]),
+                        ],
+                      )),
+            ),
+            Spacer(),
+          ],
+        ),
+        beginOffset: Offset(0, 0.3),
+        endOffset: Offset(0, 0),
+        slideCurve: Curves.linearToEaseOut,
+      ),
     );
   }
 }

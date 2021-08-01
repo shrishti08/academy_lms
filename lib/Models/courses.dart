@@ -1,12 +1,12 @@
 class Course {
-  int id;
+  String id;
   String title;
   String thumbnail;
   String price;
   String instructor;
-  int rating;
-  int totalNumberRating;
-  int numberOfEnrollment;
+  String rating;
+  String totalNumberRating;
+  String numberOfEnrollment;
   String shareableLink;
   String courseOverviewProvider;
   String courseOverviewUrl;
