@@ -66,7 +66,7 @@ class _UserExperiencePageState extends State<UserExperiencePage> {
   List<int> review = [];
   List<UserExperienceCardModel> userExperienceCourses = [];
   final List<Category> loadedCategories = [];
-  late int id;
+  late String id;
 
   Future<void> getCoursesByCategory(int id) async {
     setState(() {
@@ -81,7 +81,7 @@ class _UserExperiencePageState extends State<UserExperiencePage> {
       setState(() {
         _loading = false;
       });
-      // id = extractedData['id'];
+      id = extractedData['id'];
       for (final value in extractedData) {
         names.add(value['title']);
       }
@@ -143,12 +143,12 @@ class _UserExperiencePageState extends State<UserExperiencePage> {
                 children: [
                   InkWell(
                     onTap: () {
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (context) => CourseInfo(id: id),
-                      //   ),
-                      // );
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CourseInfo(id: int.parse(id)),
+                        ),
+                      );
                     },
                     child: Container(
                       padding:
