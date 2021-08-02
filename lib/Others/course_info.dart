@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:academy_lms/Asset/assets.dart';
+import 'package:academy_lms/Auth/SignIn/auth.dart';
 import 'package:academy_lms/Components/custombutton.dart';
 import 'package:academy_lms/Locale/locales.dart';
 import 'package:academy_lms/Routes/routes.dart';
@@ -7,13 +10,39 @@ import 'package:animation_wrappers/animation_wrappers.dart';
 import 'package:flutter/material.dart';
 
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:http/http.dart' as http;
 
 class CourseInfo extends StatefulWidget {
+  int id;
+  CourseInfo({required this.id});
   @override
   _CourseInfoState createState() => _CourseInfoState();
 }
 
 class _CourseInfoState extends State<CourseInfo> {
+  late String authToken;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    authToken = AuthClass().getToken() as String;
+    getCourseDetails();
+  }
+
+  String BASE_URL = 'https://academy-lms.gstempire.com/';
+  Future<void> getCourseDetails() async {
+    var url = Uri.parse(BASE_URL +
+        'api/course_details_by_id?auth_token=$authToken&course_id=${widget.id}');
+    try {
+      final response = await http.get(url);
+      final extracedData = json.decode(response.body);
+      print('Course details are: $extracedData');
+    } catch (e) {
+      print('error: $e');
+      throw (e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);

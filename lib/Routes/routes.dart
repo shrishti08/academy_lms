@@ -45,7 +45,7 @@ class PageRoutes {
       profile: (context) => Profile(),
       support: (context) => Support(),
       ongoingCourses: (context) => OngoingCourses(),
-      courseInfo: (context) => CourseInfo(),
+      // courseInfo: (context) => CourseInfo(),
       // lecturerProfile: (context) => LecturerProfile(),
       lecturerInfo: (context) => LectureInfo(),
       changeLanguage: (context) => SelectLanguage(),

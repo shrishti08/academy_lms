@@ -4,6 +4,7 @@ import 'package:academy_lms/Asset/assets.dart';
 import 'package:academy_lms/Locale/locales.dart';
 import 'package:academy_lms/Models/courses.dart';
 import 'package:academy_lms/Models/user_experience_card_model.dart';
+import 'package:academy_lms/Others/course_info.dart';
 import 'package:academy_lms/Others/filters.dart';
 import 'package:academy_lms/Routes/routes.dart';
 import 'package:academy_lms/Theme/colors.dart';
@@ -57,34 +58,15 @@ class _UserExperiencePageState extends State<UserExperiencePage> {
     if (mounted) setState(f);
   }
 
-  // Future<void> fetchCoursesByCategory(int categoryId) async {
-  //   setState(() {
-  //     _loading = true;
-  //   });
-  //   var url = Uri.parse(
-  //       BASE_URL + '/api/category_wise_course?category_id=$categoryId');
-  //   try {
-  //     final response = await http.get(url);
-  //     final extractedData = json.decode(response.body) as List;
-  //     setState(() {
-  //       _loading = false;
-  //     });
-
-  //     print(extractedData);
-  //     print(response.statusCode);
-  //     if (response.statusCode == 200) {
-  //       _items = buildCourseList(extractedData);
-  //     }
-  //     print(_items);
-  //   } catch (error) {
-  //     SnackBar(
-  //       content: Text(error.toString()),
-  //     );
-  //   }
-  List names = [];
-  List images = [];
+  List<String> names = [];
+  List<String> images = [];
+  List prices = [];
+  List instructor = [];
+  List<int> rating = [];
+  List<int> review = [];
   List<UserExperienceCardModel> userExperienceCourses = [];
   final List<Category> loadedCategories = [];
+  late int id;
 
   Future<void> getCoursesByCategory(int id) async {
     setState(() {
@@ -99,44 +81,28 @@ class _UserExperiencePageState extends State<UserExperiencePage> {
       setState(() {
         _loading = false;
       });
-      for (final title in extractedData) {
-        names.add(title['title']);
+      // id = extractedData['id'];
+      for (final value in extractedData) {
+        names.add(value['title']);
       }
-      for (final title in extractedData) {
-        images.add(title['thumbnail']);
+
+      for (final value in extractedData) {
+        images.add(value['thumbnail']);
       }
-      // print(extractedData);
-      // extractedData.forEach((catData) {
-      //   loadedCourses.add(Course(
-      //     id: catData["id"],
-      //     title: catData["title"],
-      //     thumbnail: catData["thumbnail"],
-      //     instructor: catData["instructor_name"],
-      //     numberOfEnrollment: catData["total_enrollment"],
-      //     rating: catData["rating"],
-      //     vimeoVideoId: catData["video_url"],
-      //     shareableLink: catData["shareable_link"],
-      //     courseOverviewProvider: catData["course_overview_provider"],
-      //     price: catData["price"],
-      //     totalNumberRating: catData["number_of_ratings"],
-      //     courseOverviewUrl: catData["short_description"],
-      //   ));
-
-      //   print(catData);
-      // });
-      //  extractedData.forEach((catData) {
-      //   loadedCategories.add(Category(
-      //       id: int.parse(catData['id']),
-      //       title: catData['title'],
-      //       thumbnail: catData['thumbnail'],
-      //       // numberOfCourses: catData['number_of_courses'],
-      //       numberOfCourses: 4));
-      // });
-
-      // buildCourseList(extractedData);
-
+      for (final value in extractedData) {
+        prices.add(value['price']);
+      }
+      for (final value in extractedData) {
+        instructor.add(value['instructor_name']);
+      }
+      for (final value in extractedData) {
+        rating.add(value['rating']);
+      }
+      for (final value in extractedData) {
+        review.add(value['number_of_ratings']);
+      }
     } catch (error) {
-      print(error);
+      print('error $error');
     }
   }
 
@@ -144,18 +110,6 @@ class _UserExperiencePageState extends State<UserExperiencePage> {
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     var locale = AppLocalizations.of(context)!;
-    // List<UserExperienceCardModel> userExperienceList = [
-    //   UserExperienceCardModel(locale.uxDesignDescription, Assets.uxDesignImage,
-    //       'Jerry Geirge', 25.00, 4.5, 125),
-    //   UserExperienceCardModel(locale.searchThree, Assets.image12,
-    //       'Kelly Williamson', 35.00, 4.2, 136),
-    //   UserExperienceCardModel(
-    //       locale.searchFour, Assets.image13, 'Johnson Taylor', 42.00, 4.5, 105),
-    //   UserExperienceCardModel(
-    //       locale.searchFive, Assets.image14, 'Linda George', 45.00, 3.9, 206),
-    //   UserExperienceCardModel(
-    //       locale.searchSix, Assets.image12, 'Amenda Smith', 25.00, 4.9, 50),
-    // ];
 
     return Scaffold(
       endDrawer: Builder(builder: (internalContext) => Filters()),
@@ -182,102 +136,89 @@ class _UserExperiencePageState extends State<UserExperiencePage> {
               width: double.infinity,
               color: theme.primaryColor,
             ),
-            // ListView.builder(
-            //   itemCount: loadedCategories.length,
-            //   physics: BouncingScrollPhysics(),
-            //   itemBuilder: (context, index) => Stack(
-            //     children: [
-            //       InkWell(
-            //         onTap: () {
-            //           Navigator.pushNamed(context, PageRoutes.courseInfo);
-            //         },
-            //         child: Container(
-            //           padding:
-            //               const EdgeInsetsDirectional.fromSTEB(120, 20, 20, 20),
-            //           margin: EdgeInsetsDirectional.only(
-            //               start: 40, end: 20, bottom: 20),
-            //           decoration: BoxDecoration(
-            //               color: theme.scaffoldBackgroundColor,
-            //               borderRadius: BorderRadius.circular(10)),
-            //           child: Column(
-            //             crossAxisAlignment: CrossAxisAlignment.stretch,
-            //             children: [
-            //               Text(loadedCategories[index].title!),
-            //               Text(loadedCategories[index].teacher,
-            //                   style: theme.textTheme.subtitle2),
-            //               SizedBox(height: 8),
-            //               Row(
-            //                 children: [
-            //                   Text(
-            //                     '\$${userExperienceList[index].price}',
-            //                     textAlign: TextAlign.end,
-            //                     style: theme.textTheme.subtitle1!
-            //                         .copyWith(color: theme.hintColor),
-            //                   ),
-            //                   Spacer(),
-            //                   Container(
-            //                     padding: EdgeInsets.symmetric(
-            //                         horizontal: 8, vertical: 2),
-            //                     decoration: BoxDecoration(
-            //                       color: Colors.lightGreen,
-            //                       borderRadius: BorderRadius.circular(4),
-            //                     ),
-            //                     child: Text(
-            //                       userExperienceList[index].ratings.toString(),
-            //                       style: theme.textTheme.caption!
-            //                           .copyWith(color: Colors.white),
-            //                     ),
-            //                   ),
-            //                   SizedBox(width: 8),
-            //                   Text(
-            //                     '(${userExperienceList[index].reviews})',
-            //                     style: theme.textTheme.caption!
-            //                         .copyWith(color: theme.hintColor),
-            //                   )
-            //                 ],
-            //               ),
-            //             ],
-            //           ),
-            //         ),
-            //       ),
-            //       PositionedDirectional(
-            //         start: 16,
-            //         top: 20,
-            //         bottom: 40,
-            //         child: FadedScaleAnimation(
-            //           Image.asset(
-            //             userExperienceList[index].image,
-            //             width: 120,
-            //             fit: BoxFit.fill,
-            //           ),
-            //         ),
-            //       ),
-            //     ],
-            //   ),
-            // ),
-            SizedBox(
-              height: 800,
-            ),
-            Spacer(),
-            Container(
-              child: ListView.builder(
-                  itemCount: names.length,
-                  itemBuilder: (context, index) => Wrap(
+            ListView.builder(
+              itemCount: names.length,
+              physics: BouncingScrollPhysics(),
+              itemBuilder: (context, index) => Stack(
+                children: [
+                  InkWell(
+                    onTap: () {
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (context) => CourseInfo(id: id),
+                      //   ),
+                      // );
+                    },
+                    child: Container(
+                      padding:
+                          const EdgeInsetsDirectional.fromSTEB(120, 20, 20, 20),
+                      margin: EdgeInsetsDirectional.only(
+                          start: 40, end: 20, bottom: 20),
+                      decoration: BoxDecoration(
+                          color: theme.scaffoldBackgroundColor,
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          Container(
-                            height: 40,
-                            width: 100,
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: NetworkImage(images[index]),
-                              ),
-                            ),
-                          ),
                           Text(names[index]),
+                          Text(instructor[index],
+                              style: theme.textTheme.subtitle2),
+                          SizedBox(height: 8),
+                          Row(
+                            children: [
+                              Text(
+                                '\$${prices[index]}',
+                                textAlign: TextAlign.end,
+                                style: theme.textTheme.subtitle1!
+                                    .copyWith(color: theme.hintColor),
+                              ),
+                              Spacer(),
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 8, vertical: 2),
+                                decoration: BoxDecoration(
+                                  color: Colors.lightGreen,
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                                child: Text(
+                                  rating[index].toString(),
+                                  style: theme.textTheme.caption!
+                                      .copyWith(color: Colors.white),
+                                ),
+                              ),
+                              SizedBox(width: 8),
+                              Text(
+                                '(${review[index].toString()})',
+                                style: theme.textTheme.caption!
+                                    .copyWith(color: theme.hintColor),
+                              )
+                            ],
+                          ),
                         ],
-                      )),
+                      ),
+                    ),
+                  ),
+                  PositionedDirectional(
+                    start: 16,
+                    top: 20,
+                    bottom: 40,
+                    child: FadedScaleAnimation(
+                      // Image.asset(
+                      //   images[index],
+                      //   width: 120,
+                      //   fit: BoxFit.fill,
+                      // ),
+                      Image.network(
+                        images[index],
+                        width: 120,
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-            Spacer(),
           ],
         ),
         beginOffset: Offset(0, 0.3),
