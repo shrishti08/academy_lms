@@ -360,133 +360,91 @@ class _HomePageState extends State<HomePage> {
                             builder: (context) => CategoryPage()));
                   },
                 ),
-                // Padding(
-                //   padding: EdgeInsets.symmetric(horizontal: 20),
-                //   child: ListView.builder(
-                //     shrinkWrap: true,
-                //     physics: NeverScrollableScrollPhysics(),
-                //     itemBuilder: (ctx, index) {
-                //       return CategoryListItem(
-                //         id: catData[index].id,
-                //         title: catData[index].title,
-                //         thumbnail: catData[index].thumbnail,
-                //         numberOfCourses: catData[index].numberOfCourses,
-                //         backgroundColor: Colors.white,
-                //       );
-                //     },
-                //     itemCount: catData.length,
-                //   ),
-                // ),
-                GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2),
-                  shrinkWrap: true,
-                  itemCount: loadedCategories.length,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      height: 10,
-                      width: double.infinity,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Text(
-                            loadedCategories[index].title,
-                            style: TextStyle(color: Colors.black, fontSize: 10),
-                          ),
-                        ),
-                      ),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        image: DecorationImage(
-                            colorFilter: new ColorFilter.mode(
-                                Colors.black.withOpacity(0.3),
-                                BlendMode.dstATop),
-                            image:
-                                NetworkImage(loadedCategories[index].thumbnail),
-                            fit: BoxFit.fill),
-                      ),
-                    );
-                  },
-                )
+
                 // GridView.builder(
-                //   physics: NeverScrollableScrollPhysics(),
-                //   // padding: EdgeInsets.symmetric(horizontal: 16),
-                //   padding: EdgeInsets.zero,
-                //   itemCount: loadedCategories.length,
-                //   shrinkWrap: true,
                 //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                //     crossAxisCount: 2,
-                //     crossAxisSpacing: 12,
-                //     childAspectRatio: 2,
-                //     mainAxisSpacing: 12,
-                //   ),
-                //   itemBuilder: (context, index) => InkWell(
-                //     onTap: () {
-                //       Navigator.pushNamed(context, PageRoutes.categoryPage,
-                //           arguments: loadedCategories[index].title);
-                //     },
-                //     child: FadedScaleAnimation(
-                //       Container(
-                //           padding:
-                //               EdgeInsetsDirectional.only(start: 12, top: 44),
-                //           decoration: BoxDecoration(
-                //               image: DecorationImage(
-                //                   image: NetworkImage(
-                //                       loadedCategories[index].thumbnail))),
-                //           child: RichText(
-                //             text: TextSpan(
-                //               children: [
-                //                 TextSpan(
-                //                     text: loadedCategories[index].title,
-                //                     style: theme.textTheme.headline6),
-                //                 TextSpan(
-                //                     text: '\n' +
-                //                         loadedCategories[index]
-                //                             .numberOfCourses
-                //                             .toString() +
-                //                         ' ' +
-                //                         AppLocalizations.of(context)!.courses!,
-                //                     style: theme.textTheme.caption!.copyWith(
-                //                         color: theme.scaffoldBackgroundColor
-                //                             .withOpacity(0.7)))
-                //               ],
-                //             ),
-                //           )),
-                //     ),
-                //   ),
-                // ),
-
-                // Container(
-                //   height: 100,
-
-                // ),
-
-                // CategoriesList(
-                //   topCategories,
-                //   padding: EdgeInsets.symmetric(horizontal: 16),
-                // ),
-                // Padding(
-                //   padding: EdgeInsets.symmetric(horizontal: 20),
-                //   child: ListView.builder(
-                //     shrinkWrap: true,
-                //     physics: NeverScrollableScrollPhysics(),
-                //     itemBuilder: (ctx, index) {
-                //       return Center(
-                //         child: CourseListItem(
-                //           id: courseData[index].id,
-                //           title: courseData[index].title,
-                //           thumbnail: courseData[index].thumbnail,
-                //           rating: courseData[index].rating,
-                //           price: courseData[index].price,
-                //           instructor: courseData[index].instructor,
-                //           noOfRating: courseData[index].totalNumberRating,
+                //       crossAxisCount: 2),
+                //   shrinkWrap: true,
+                //   itemCount: loadedCategories.length,
+                //   itemBuilder: (context, index) {
+                //     return Container(
+                //       height: 10,
+                //       width: double.infinity,
+                //       child: Padding(
+                //         padding: const EdgeInsets.all(8.0),
+                //         child: Align(
+                //           alignment: Alignment.center,
+                //           child: Text(
+                //             loadedCategories[index].title,
+                //             style: TextStyle(color: Colors.black, fontSize: 10),
+                //           ),
                 //         ),
-                //       );
-                //     },
-                //     itemCount: courseData.length,
-                //   ),
-                // ),
+                //       ),
+                //       decoration: BoxDecoration(
+                //         borderRadius: BorderRadius.circular(20),
+                //         image: DecorationImage(
+                //             colorFilter: new ColorFilter.mode(
+                //                 Colors.black.withOpacity(0.3),
+                //                 BlendMode.dstATop),
+                //             image:
+                //                 NetworkImage(loadedCategories[index].thumbnail),
+                //             fit: BoxFit.fill),
+                //       ),
+                //     );
+                //   },
+                // )
+                GridView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  itemCount: loadedCategories.length,
+                  shrinkWrap: true,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 12,
+                    childAspectRatio: 2,
+                    mainAxisSpacing: 12,
+                  ),
+                  itemBuilder: (context, index) => InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CategoryPage(),
+                        ),
+                      );
+                    },
+                    child: FadedScaleAnimation(
+                      Container(
+                          padding:
+                              EdgeInsetsDirectional.only(start: 12, top: 44),
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: NetworkImage(
+                                  loadedCategories[index].thumbnail),
+                            ),
+                          ),
+                          child: RichText(
+                            text: TextSpan(
+                              children: [
+                                TextSpan(
+                                    text: loadedCategories[index].title,
+                                    style: theme.textTheme.headline6),
+                                TextSpan(
+                                    text: '\n' +
+                                        loadedCategories[index]
+                                            .numberOfCourses
+                                            .toString() +
+                                        ' ' +
+                                        AppLocalizations.of(context)!.courses!,
+                                    style: theme.textTheme.caption!.copyWith(
+                                        color: theme.scaffoldBackgroundColor
+                                            .withOpacity(0.7)))
+                              ],
+                            ),
+                          )),
+                    ),
+                  ),
+                )
               ],
             ),
     );

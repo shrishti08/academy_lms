@@ -66,7 +66,7 @@ class _UserExperiencePageState extends State<UserExperiencePage> {
   List<int> review = [];
   List<UserExperienceCardModel> userExperienceCourses = [];
   final List<Category> loadedCategories = [];
-  late String id;
+  List<String> ids = [];
 
   Future<void> getCoursesByCategory(int id) async {
     setState(() {
@@ -78,12 +78,12 @@ class _UserExperiencePageState extends State<UserExperiencePage> {
       final extractedData = json.decode(response.body);
 
       // print(response.body);
-      setState(() {
-        _loading = false;
-      });
-      id = extractedData['id'];
+
       for (final value in extractedData) {
         names.add(value['title']);
+      }
+      for (final value in extractedData) {
+        ids.add(value['id']);
       }
 
       for (final value in extractedData) {
@@ -101,6 +101,9 @@ class _UserExperiencePageState extends State<UserExperiencePage> {
       for (final value in extractedData) {
         review.add(value['number_of_ratings']);
       }
+      setState(() {
+        _loading = false;
+      });
     } catch (error) {
       print('error $error');
     }
@@ -146,7 +149,8 @@ class _UserExperiencePageState extends State<UserExperiencePage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => CourseInfo(id: int.parse(id)),
+                          builder: (context) =>
+                              CourseInfo(id: int.parse(ids[index])),
                         ),
                       );
                     },

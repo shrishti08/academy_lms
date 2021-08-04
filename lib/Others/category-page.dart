@@ -185,38 +185,92 @@ class _CategoryPageState extends State<CategoryPage> {
                           color: textColor, fontWeight: FontWeight.bold),
                     ),
                   ),
-                  ListView.builder(
-                    // itemCount: subCategories.length,
-                    itemCount: loadedCategories.length,
+                  // ListView.builder(
+                  //   // itemCount: subCategories.length,
+                  //   itemCount: loadedCategories.length,
+                  //   physics: NeverScrollableScrollPhysics(),
+                  //   padding: EdgeInsets.all(16),
+                  //   shrinkWrap: true,
+                  //   itemBuilder: (context, index) => InkWell(
+                  //     onTap: () {
+                  //       // Navigator.pushNamed(
+                  //       //   context,
+                  //       //   PageRoutes.userExperience,
+                  //       // );
+                  //       Navigator.push(
+                  //           context,
+                  //           MaterialPageRoute(
+                  //               builder: (context) => UserExperiencePage(
+                  //                     courseId: loadedCategories[index].id,
+                  //                   )));
+                  //     },
+                  //     child: RichText(
+                  //       text: TextSpan(
+                  //         style: theme.textTheme.subtitle1!
+                  //             .copyWith(color: textColor, height: 2),
+                  //         children: [
+                  //           TextSpan(text: loadedCategories[index].title),
+                  //           TextSpan(
+                  //               text:
+                  //                   ' (${loadedCategories[index].numberOfCourses})',
+                  //               style: theme.textTheme.subtitle1!
+                  //                   .copyWith(color: theme.hintColor))
+                  //         ],
+                  //       ),
+                  //     ),
+                  //   ),
+                  // )
+                  GridView.builder(
                     physics: NeverScrollableScrollPhysics(),
-                    padding: EdgeInsets.all(16),
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    itemCount: loadedCategories.length,
                     shrinkWrap: true,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 12,
+                      childAspectRatio: 2,
+                      mainAxisSpacing: 12,
+                    ),
                     itemBuilder: (context, index) => InkWell(
                       onTap: () {
-                        // Navigator.pushNamed(
-                        //   context,
-                        //   PageRoutes.userExperience,
-                        // );
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => UserExperiencePage(
-                                      courseId: loadedCategories[index].id,
-                                    )));
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => UserExperiencePage(
+                                courseId: loadedCategories[index].id),
+                          ),
+                        );
                       },
-                      child: RichText(
-                        text: TextSpan(
-                          style: theme.textTheme.subtitle1!
-                              .copyWith(color: textColor, height: 2),
-                          children: [
-                            TextSpan(text: loadedCategories[index].title),
-                            TextSpan(
-                                text:
-                                    ' (${loadedCategories[index].numberOfCourses})',
-                                style: theme.textTheme.subtitle1!
-                                    .copyWith(color: theme.hintColor))
-                          ],
-                        ),
+                      child: FadedScaleAnimation(
+                        Container(
+                            padding:
+                                EdgeInsetsDirectional.only(start: 12, top: 44),
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: NetworkImage(
+                                    loadedCategories[index].thumbnail),
+                              ),
+                            ),
+                            child: RichText(
+                              text: TextSpan(
+                                children: [
+                                  TextSpan(
+                                      text: loadedCategories[index].title,
+                                      style: theme.textTheme.headline6),
+                                  TextSpan(
+                                      text: '\n' +
+                                          loadedCategories[index]
+                                              .numberOfCourses
+                                              .toString() +
+                                          ' ' +
+                                          AppLocalizations.of(context)!
+                                              .courses!,
+                                      style: theme.textTheme.caption!.copyWith(
+                                          color: theme.scaffoldBackgroundColor
+                                              .withOpacity(0.7)))
+                                ],
+                              ),
+                            )),
                       ),
                     ),
                   )

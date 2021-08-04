@@ -64,8 +64,8 @@ class MyApp extends StatelessWidget {
             locale: locale,
             theme: appTheme,
 
-            home: SignInPage(),
-            // home: SelectCategory(),
+            // home: SignInPage(),
+            home: SelectCategory(),
 
             routes: PageRoutes().routes(),
           );

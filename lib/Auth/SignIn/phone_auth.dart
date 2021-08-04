@@ -147,8 +147,8 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
   Widget otpField() {
     return OTPTextField(
       length: 6,
-      width: MediaQuery.of(context).size.width - 34,
-      fieldWidth: 50,
+      width: MediaQuery.of(context).size.width - 44,
+      fieldWidth: 45,
       otpFieldStyle: OtpFieldStyle(
         backgroundColor: Colors.grey.shade300,
         borderColor: Colors.black,

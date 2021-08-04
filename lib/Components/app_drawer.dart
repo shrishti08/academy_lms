@@ -3,6 +3,8 @@ import 'package:academy_lms/Routes/routes.dart';
 import 'package:academy_lms/Theme/colors.dart';
 import 'package:animation_wrappers/animation_wrappers.dart';
 import 'package:flutter/material.dart';
+import 'package:share/share.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 
 class AppDrawer extends StatefulWidget {
   @override
@@ -85,7 +87,10 @@ class _AppDrawerState extends State<AppDrawer> {
                                                   context, PageRoutes.support);
                                             }
                                           : index == 4
-                                              ? () {}
+                                              ? () {
+                                                  Share.share(
+                                                      'Check out our new application');
+                                                }
                                               : index == 5
                                                   ? () {
                                                       Navigator.pushNamed(

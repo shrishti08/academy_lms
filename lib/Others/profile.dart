@@ -1,12 +1,39 @@
+import 'dart:convert';
+
 import 'package:academy_lms/Asset/assets.dart';
+import 'package:academy_lms/Auth/SignIn/auth.dart';
 import 'package:academy_lms/Components/app_drawer.dart';
 import 'package:academy_lms/Components/custombutton.dart';
 import 'package:academy_lms/Components/text_field_for_profile.dart';
 import 'package:academy_lms/Locale/locales.dart';
 import 'package:animation_wrappers/animation_wrappers.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
-class Profile extends StatelessWidget {
+class Profile extends StatefulWidget {
+  @override
+  _ProfileState createState() => _ProfileState();
+}
+
+class _ProfileState extends State<Profile> {
+  late String authToken;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getProfile();
+  }
+
+  Future<void> getProfile() async {
+    authToken = await AuthClass().getToken() as String;
+    String BASE_URL = 'https://academy-lms.gstempire.com/';
+    var url = Uri.parse(BASE_URL + 'api/userdata?auth_token=$authToken');
+    final response = await http.get(url);
+    print(response.body);
+    final extractedData = json.decode(response.body);
+    print(extractedData);
+  }
+
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
